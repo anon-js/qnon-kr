@@ -15,14 +15,14 @@ jobs:
     steps:
       # 1) 코드 체크아웃
       - name: Checkout
-        uses: actions/checkout@v7
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
 
       # 2) Node + pnpm 세팅 (pnpm 버전은 package.json의 packageManager를 따라감)
       - name: Setup pnpm
-        uses: pnpm/action-setup@v6
+        uses: pnpm/action-setup@73e46992e05b19abd31f2f3c20e0e7370d762115
 
       - name: Setup Node
-        uses: actions/setup-node@v7
+        uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1
         with:
           node-version: 22.22.0
           cache: pnpm
@@ -38,11 +38,11 @@ jobs:
       # 4) dist/ 만 서버로 복사 = 배포 끝
       #    nginx가 이 폴더를 바로 서빙하므로 재시작할 프로세스가 없음
       - name: Deploy to server via rsync
-        uses: burnett01/rsync-deployments@v9
+        uses: burnett01/rsync-deployments@c8300118e5f66a3fe187f35763d7e65848ae205a
         with:
           switches: -avzr --delete
           path: dist/
-          remote_path: ~/htdocs/qnon-kr-astro/
+          remote_path: ~/htdocs/qnon-kr/
           remote_host: ${{ secrets.HOST }}
           remote_user: ${{ secrets.USERNAME }}
           remote_port: ${{ secrets.PORT }}

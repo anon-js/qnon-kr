@@ -1,0 +1,41 @@
+---
+import Section from "@/components/ui/Section.astro";
+
+interface ContactItem {
+  sns: string;
+  href: string;
+}
+
+const contactItems: ContactItem[] = [
+  {
+    sns: "anon@qnon.kr",
+    href: "mailto:anon@qnon.kr",
+  },
+  {
+    sns: "github / anon-js",
+    href: "https://github.com/anon-js",
+  },
+];
+---
+
+<Section
+  id="contact"
+  title="언제든지 연락주세요!"
+  class="gap-16 bg-black max-md:pb-32"
+  titleClass="text-gray-400"
+>
+  <ul class="flex flex-col items-start justify-center gap-8">
+    {
+      contactItems.map((item) => (
+        <li class="group relative">
+          <a
+            href={item.href}
+            class="text-4xl font-normal text-gray-50 transition-opacity hover:opacity-60"
+          >
+            {item.sns}
+          </a>
+        </li>
+      ))
+    }
+  </ul>
+</Section>

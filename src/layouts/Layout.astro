@@ -1,0 +1,43 @@
+---
+import Footer from "@/components/Footer.astro";
+import Header from "@/components/Header.astro";
+import Navigation from "@/components/Navigation.astro";
+import "@/styles/global.css";
+import { ClientRouter } from "astro:transitions";
+
+interface Props {
+  title: string;
+  isNav?: boolean;
+}
+
+const { title, isNav } = Astro.props;
+---
+
+<!doctype html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="description" content="모두가 같은 경험을 할 수 있도록" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <meta name="generator" content={Astro.generator} />
+    <title>{title}</title>
+    <ClientRouter />
+  </head>
+  <body class="bg-light dark:bg-dark flex min-h-dvh flex-col">
+    <div class="relative">
+      <Header isNav={isNav} />
+      <main class="flex flex-1 flex-col">
+        <slot />
+      </main>
+      {
+        isNav && (
+          <div class="sticky bottom-6 h-0 md:hidden">
+            <Navigation class="absolute bottom-6 left-1/2 inline-flex -translate-x-1/2 md:hidden" />
+          </div>
+        )
+      }
+    </div>
+    <Footer />
+  </body>
+</html>

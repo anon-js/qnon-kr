@@ -1,0 +1,20 @@
+---
+import ProjectCard from "@/components/ui/ProjectCard.astro";
+import Section from "@/components/ui/Section.astro";
+import { projects } from "@/data/projects";
+---
+
+<Section id="project" title="프로젝트" titleClass="ps-1">
+  <div class="flex w-full flex-col gap-4">
+    {
+      projects.map((item) => (
+        <ProjectCard
+          name={item.name}
+          description={item.description}
+          href={`/projects/${item.slug}`}
+          img={item.img}
+        />
+      ))
+    }
+  </div>
+</Section>

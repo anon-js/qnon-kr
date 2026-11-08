@@ -1,0 +1,53 @@
+---
+import type { HTMLAttributes } from "astro/types";
+
+type Props = HTMLAttributes<"button">;
+
+const { ...attrs } = Astro.props;
+---
+
+<button
+  class="group glass transition-translate z-9999 col-span-2 flex size-12 cursor-pointer items-center justify-center justify-self-end duration-200 active:-translate-y-0.5 md:hidden"
+  {...attrs}
+>
+  <svg
+    viewBox="0 0 24 24"
+    class="size-6"
+    fill="none"
+    stroke="currentColor"
+    stroke-width="2"
+    stroke-linecap="round"
+    aria-hidden="true"
+  >
+    <line class="line top" x1="3" y1="6" x2="21" y2="6"></line>
+    <line class="line middle" x1="3" y1="12" x2="21" y2="12"></line>
+    <line class="line bottom" x1="3" y1="18" x2="21" y2="18"></line>
+  </svg>
+</button>
+
+<style>
+  .line {
+    transition:
+      transform 200ms ease,
+      opacity 150ms ease;
+    transform-origin: center;
+    transform-box: fill-box;
+  }
+
+  #menu-btn[aria-expanded="true"] .top {
+    transform: translateY(6px) rotate(45deg);
+  }
+
+  #menu-btn[aria-expanded="true"] .middle {
+    opacity: 0;
+  }
+  
+  #menu-btn[aria-expanded="true"] .bottom {
+    transform: translateY(-6px) rotate(-45deg);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .line {
+      transition: none;
+  }
+</style>

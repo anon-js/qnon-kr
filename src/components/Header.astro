@@ -1,0 +1,39 @@
+---
+import profile from "@/assets/profile.png";
+import Navigation from "@/components/Navigation.astro";
+import { Image } from "astro:assets";
+
+interface Props {
+  isNav?: boolean;
+}
+
+const { isNav } = Astro.props;
+---
+
+<header
+  class="fixed top-0 z-9999 -mb-28 grid w-full auto-cols-fr grid-flow-col items-center px-8 py-6 md:px-14"
+>
+  <a
+    href="/"
+    aria-label="메인으로 이동"
+    class="glass z-9999 flex min-w-12 items-center justify-center justify-self-start"
+  >
+    <Image
+      src={profile}
+      alt="프로필 이미지"
+      width={48}
+      height={48}
+      densities={[2]}
+      loading="eager"
+      fetchpriority="high"
+      format="webp"
+    />
+  </a>
+  {isNav && <Navigation class="hidden justify-self-center md:flex" />}
+  <a
+    href="/#contact"
+    class="link glass col-span-2 inline-flex min-w-24 items-center justify-center justify-self-end rounded-xl bg-black/85 px-5 py-3 text-white md:col-span-1"
+  >
+    연락하기
+  </a>
+</header>

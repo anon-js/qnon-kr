@@ -1,0 +1,41 @@
+---
+import highthon from "@/assets/highthon.png";
+import Section from "@/components/ui/Section.astro";
+import { Image } from "astro:assets";
+---
+
+<Section id="experience" title="경험">
+  <div class="flex w-full flex-col gap-2 px-1">
+    <Image
+      src={highthon}
+      alt="MZ++ 로고"
+      width={96}
+      height={72}
+      densities={[2]}
+      loading="eager"
+      fetchpriority="high"
+      format="webp"
+      class="size-12 rounded-lg object-contain"
+    />
+    <div class="flex w-full flex-col gap-4 border-gray-300">
+      <div
+        class="flex flex-row items-center justify-between gap-2 max-md:flex-wrap"
+      >
+        <div
+          class="flex w-full flex-1 flex-row items-center justify-start gap-2 max-md:flex-wrap"
+        >
+          <h3 class="keep-all max-w-full text-xl font-bold">Highthon (8th)</h3>
+          <p class="text-muted-foreground text-md shrink-0">프론트엔드</p>
+        </div>
+        <time datetime="2023-01" class="text-sm text-gray-700">2023.01</time>
+      </div>
+      <p class="text-base text-gray-700">
+        하이톤 해커톤은 하이브에서 주최한 해커톤으로, MZ를 주제로 밀레니얼
+        세대와 Z세대가 소통할 수 있는 창구를 만들기 위해 C++의 작명을 따와 MZ++
+        이라는 사이트를 개발했습니다.<br />처음으로 참가한 해커톤으로 역량이
+        많이 부족했음을 깨닫는 계기가 되었고, 팀원들이 도와준다는 말에 자존심을
+        부렸던 것을 후회하며 짧지만 값진 경험을 할 수 있었습니다.
+      </p>
+    </div>
+  </div>
+</Section>

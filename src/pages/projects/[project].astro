@@ -1,0 +1,46 @@
+---
+import { projects } from "@/data/projects";
+import Layout from "@/layouts/Layout.astro";
+import { Image } from "astro:assets";
+
+export function getStaticPaths() {
+  return projects.map((project) => ({
+    params: { project: project.slug },
+    props: { project },
+  }));
+}
+
+const { project } = Astro.props;
+---
+
+<Layout title={`프로젝트 - ${project.name}`}>
+  <div
+    class="flex h-full flex-col items-center justify-center gap-12 px-16 py-12"
+  >
+    <figure
+      class="aspect-video w-lg overflow-hidden rounded-xl border border-gray-300 bg-gray-200"
+      transition:name=`project-${project.name}-image`
+    >
+      {
+        project.img && (
+          <Image
+            src={project.img}
+            alt={project.name}
+            width={1280}
+            height={720}
+            class="h-full w-full object-cover"
+          />
+        )
+      }
+    </figure>
+    <div class="flex flex-col gap-1">
+      <h1
+        class="text-3xl font-bold text-gray-800"
+        transition:name=`project-${project.name}-title`
+      >
+        {project.name}
+      </h1>
+      <p class="text-gray-600">{project.details}</p>
+    </div>
+  </div>
+</Layout>

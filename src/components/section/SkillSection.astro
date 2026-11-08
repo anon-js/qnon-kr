@@ -1,0 +1,47 @@
+---
+import Section from "@/components/ui/Section.astro";
+
+interface SkillCategory {
+  name: string;
+  items: string[];
+}
+
+const skillList: SkillCategory[] = [
+  {
+    name: "프론트엔드",
+    items: [
+      "JavaScript",
+      "TypeScript",
+      "React",
+      "Next.js",
+      "Astro",
+      "TailwindCSS",
+    ],
+  },
+  {
+    name: "배포 및 운영",
+    items: ["Github Actions", "Nginx", "PM2"],
+  },
+  {
+    name: "협업",
+    items: ["Git", "Github", "Figma"],
+  },
+];
+---
+
+<Section id="skills" title="기술">
+  <article
+    class="mb-4 flex w-full flex-row flex-wrap gap-16 text-lg font-normal text-gray-700 md:gap-32"
+  >
+    {
+      skillList.map((category) => (
+        <div class="flex flex-col items-start justify-start gap-2 py-2">
+          <h3 class="p-0 text-left text-base font-semibold">{category.name}</h3>
+          <p class="text-left text-2xl font-normal text-gray-600">
+            {category.items.join(", ")}
+          </p>
+        </div>
+      ))
+    }
+  </article>
+</Section>

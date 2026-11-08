@@ -1,0 +1,58 @@
+---
+interface AboutItem {
+  category: string;
+  values: string[];
+}
+
+const aboutItems: AboutItem[] = [
+  {
+    category: "방향성",
+    values: ["처음이지만 익숙한 UI/UX", "누구에게나 동일한 A11y"],
+  },
+  {
+    category: "학력사항",
+    values: [
+      "한국성서대학교 컴퓨터소프트웨어학과 재학(2024~)",
+      "경민IT고등학교 졸업(2024)",
+    ],
+  },
+  {
+    category: "자격증",
+    values: [
+      "정보처리산업기사(HRDK)",
+      "웹디자인개발기능사(HRDK)",
+      "SQL 개발자(K-DATA)",
+    ],
+  },
+];
+---
+
+<section
+  id="about"
+  class="flex min-h-dvh flex-col items-start justify-center gap-16 px-10 py-16 md:items-center md:gap-32 md:px-14 md:py-52"
+>
+  <div class="flex flex-col items-start gap-2 md:items-center">
+    <p class="text-2xl font-semibold text-gray-600 max-md:ms-1">
+      프론트엔드 개발자
+    </p>
+    <h1 class="text-8xl font-black md:text-9xl">이예찬</h1>
+  </div>
+  <dl
+    class="flex flex-col items-start gap-6 text-base max-md:ms-1 md:flex-row md:gap-16"
+  >
+    {
+      aboutItems.map((item) => (
+        <div class="flex flex-col gap-2 md:flex-row md:gap-4">
+          <dt class="font-medium text-gray-800">{item.category}</dt>
+          <dd>
+            <ul class="flex list-none flex-col gap-1 text-gray-600">
+              {item.values.map((value) => (
+                <li>{value}</li>
+              ))}
+            </ul>
+          </dd>
+        </div>
+      ))
+    }
+  </dl>
+</section>

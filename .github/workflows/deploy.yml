@@ -17,7 +17,7 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v7
 
-      # 2) Node + pnpm 세팅
+      # 2) Node + pnpm 세팅 (pnpm 버전은 package.json의 packageManager를 따라감)
       - name: Setup pnpm
         uses: pnpm/action-setup@v6
 
@@ -27,67 +27,27 @@ jobs:
           node-version: 22.22.0
           cache: pnpm
 
-      # 3) 러너에서 의존성 설치 + 빌드
+      # 3) 러너에서 빌드 → dist/ 에 정적 파일 생성
+      #    (sharp 이미지 최적화, Tailwind CSS 생성이 전부 여기서 끝남)
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
 
       - name: Build
         run: pnpm build
 
-      # 4) standalone 산출물을 한 폴더로 정리
-      - name: Assemble standalone bundle
-        run: |
-          mkdir -p deploy
-          cp -r .next/standalone/. deploy/
-          mkdir -p deploy/.next
-          cp -r .next/static deploy/.next/static
-          cp -r public deploy/public
-
-      # 5) 서버로 전송
+      # 4) dist/ 만 서버로 복사 = 배포 끝
+      #    nginx가 이 폴더를 바로 서빙하므로 재시작할 프로세스가 없음
       - name: Deploy to server via rsync
         uses: burnett01/rsync-deployments@v9
         with:
           switches: -avzr --delete
-          path: deploy/
-          remote_path: ~/htdocs/qnon-kr-nextjs/
+          path: dist/
+          remote_path: ~/htdocs/qnon-kr-astro/
           remote_host: ${{ secrets.HOST }}
           remote_user: ${{ secrets.USERNAME }}
           remote_port: ${{ secrets.PORT }}
           remote_key: ${{ secrets.KEY }}
 
-      # 6) 서버에서 프로세스 reload/start + 헬스체크
-      - name: Restart and health check
-        uses: appleboy/ssh-action@v1.2.5
-        with:
-          host: ${{ secrets.HOST }}
-          username: ${{ secrets.USERNAME }}
-          key: ${{ secrets.KEY }}
-          port: ${{ secrets.PORT }}
-          command_timeout: 5m
-          script: |
-            export PATH=$HOME/.nvm/versions/node/v22.22.0/bin:$PATH
-            cd ~/htdocs/qnon-kr-nextjs
-
-            if pm2 describe qnon.kr > /dev/null 2>&1; then
-              echo "> Reloading server..."
-              pm2 reload qnon.kr --update-env
-            else
-              echo "> Starting server fresh..."
-              PORT=3002 pm2 start server.js --name "qnon.kr"
-            fi
-
-            echo "> Waiting for server to come up..."
-            sleep 3
-
-            echo "> Health check on localhost:3002..."
-            for i in 1 2 3 4 5; do
-              if curl -fsS http://localhost:3002 > /dev/null; then
-                echo "> Health check passed."
-                exit 0
-              fi
-              echo "  attempt $i failed, retrying in 3s..."
-              sleep 3
-            done
-
-            echo "> Health check FAILED after retries."
-            exit 1
+      # 5) 실제 도메인으로 확인
+      - name: Health check
+        run: curl -fsS --retry 5 --retry-delay 3 https://qnon.kr > /dev/null
